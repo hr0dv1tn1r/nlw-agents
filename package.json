@@ -1,0 +1,25 @@
+{
+  "name": "nlw-agents",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hr0dv1tn1r/nlw-agents.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hr0dv1tn1r/nlw-agents/issues"
+  },
+  "homepage": "https://github.com/hr0dv1tn1r/nlw-agents#readme",
+  "devDependencies": {
+    "@types/node": "^24.2.1",
+    "typescript": "^5.9.2"
+  }
+}
