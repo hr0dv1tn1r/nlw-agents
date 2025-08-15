@@ -6,5 +6,5 @@ import { schema } from './schema/index.ts'
 export const sql = postgres(env.DATABASE_URL)
 export const db = drizzle(sql, {
   schema,
-  casing: 'camelCase',,
+  casing: 'camelCase',
 })
