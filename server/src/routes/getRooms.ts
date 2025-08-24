@@ -1,9 +1,9 @@
-import { FastifyPluginCallbackzod } from 'fastify-type-provider-zod';
-import { db } from '../db/connection.ts';
-import { schema } from '../db/schema/index.ts';
+import type { FastifyPluginCallbackZod } from "fastify-type-provider-zod";
+import { db } from "../db/connection.ts";
+import { schema } from "../db/schema/index.ts";
 
-export const getRoomsRoute: FastifyPluginCallbackzod = (app) => {
-  app.get('/rooms', async () => {
+export const getRoomsRoute: FastifyPluginCallbackZod = (app) => {
+  app.get("/rooms", async () => {
     const results = await db
       .select({
         id: schema.rooms.id,
@@ -12,6 +12,6 @@ export const getRoomsRoute: FastifyPluginCallbackzod = (app) => {
       .from(schema.rooms)
       .orderBy(schema.rooms.createdAt);
 
-    return results
+    return results;
   });
-}
+};

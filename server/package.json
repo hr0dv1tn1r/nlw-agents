@@ -5,7 +5,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node --env-file .env --experimental-strip-types --no-warnings --watch src/server.ts",
+    "dev": "node --env-file .env --experimental-strip-types --no-warnings --watch src/server.ts",
+    "db:seed": "node --env-file .env --experimental-strip-types --no-warnings --watch src/db/seed.ts"
   },
   "repository": {
     "type": "git",
@@ -19,11 +21,12 @@
   },
   "homepage": "https://github.com/hr0dv1tn1r/nlw-agents#readme",
   "devDependencies": {
+    "@biomejs/biome": "2.1.2",
     "@types/node": "^24.2.1",
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.2",
+    "ultracite": "5.2.5"
   },
   "dependencies": {
-    "@biomejs/biome": "^2.1.4",
     "@fastify/cors": "^11.1.0",
     "drizzle-kit": "^0.31.4",
     "drizzle-orm": "^0.44.4",
@@ -31,7 +34,7 @@
     "fastify": "^5.5.0",
     "fastify-type-provider-zod": "^5.0.3",
     "pg": "^8.16.3",
-    "ultracite": "^5.1.2",
-    "zod": "^4.0.17"
+    "postgres": "^3.4.7",
+    "zod": "^4.1.1"
   }
 }
