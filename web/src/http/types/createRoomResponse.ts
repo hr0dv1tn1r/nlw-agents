@@ -1,4 +1,3 @@
-export type CreateQuestionResponse = {
-  questionId: string;
-  answer: string | null;
+export type CreateRoomResponse = {
+  roomId: string;
 };

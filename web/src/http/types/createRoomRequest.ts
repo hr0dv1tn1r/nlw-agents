@@ -1,3 +1,4 @@
-export type CreateQuestionRequest = {
-  question: string;
+export type CreateRoomRequest = {
+  name: string;
+  description: string;
 };

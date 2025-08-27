@@ -1,27 +1,93 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { CreateRoomRequest } from "./types/createRoomRequest";
-import type { CreateRoomResponse } from "./types/createRoomResponse";
+import type { CreateQuestionRequest } from "./types/createQuestionRequest";
+import type { CreateQuestionResponse } from "./types/createQuestionResponse";
+// import type { GetRoomQuestionsResponse } from "./types/getRoomQuestionsResponse";
 
-export function useCreateRoom() {
+export function useCreateQuestion(roomId: string) {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (data: CreateRoomRequest) => {
-      const response = await fetch("http://localhost:3333/rooms", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+    mutationFn: async (data: CreateQuestionRequest) => {
+      const response = await fetch(
+        `http://localhost:3333/rooms/${roomId}/questions`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
         },
-        body: JSON.stringify(data),
-      });
+      );
 
-      const result: CreateRoomResponse = await response.json();
+      const result: CreateQuestionResponse = await response.json();
 
       return result;
     },
 
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["get-rooms"] });
+    // Executa no momento que for feita a chamada p/ API
+    onMutate({ question }) {
+      const questions = queryClient.getQueryData<GetRoomQuestionsResponse>([
+        "get-questions",
+        roomId,
+      ]);
+
+      const questionsArray = questions ?? [];
+
+      const newQuestion = {
+        id: crypto.randomUUID(),
+        question,
+        answer: null,
+        createdAt: new Date().toISOString(),
+        isGeneratingAnswer: true,
+      };
+
+      queryClient.setQueryData<GetRoomQuestionsResponse>(
+        ["get-questions", roomId],
+        [newQuestion, ...questionsArray],
+      );
+
+      return { newQuestion, questions };
     },
+
+    onSuccess(data, _variables, context) {
+      queryClient.setQueryData<GetRoomQuestionsResponse>(
+        ["get-questions", roomId],
+        (questions) => {
+          if (!questions) {
+            return questions;
+          }
+
+          if (!context.newQuestion) {
+            return questions;
+          }
+
+          return questions.map((question) => {
+            if (question.id === context.newQuestion.id) {
+              return {
+                ...context.newQuestion,
+                id: data.questionId,
+                answer: data.answer,
+                isGeneratingAnswer: false,
+              };
+            }
+
+            return question;
+          });
+        },
+      );
+    },
+
+    onError(_error, _variables, context) {
+      if (context?.questions) {
+        queryClient.setQueryData<GetRoomQuestionsResponse>(
+          ["get-questions", roomId],
+          context.questions,
+        );
+      }
+    },
+
+    // onSuccess: () => {
+    //   queryClient.invalidateQueries({ queryKey: ['get-questions', roomId] })
+    // },
   });
 }

@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod/v4";
-import { useCreateRoom } from "../http/use-create-room";
+import { useCreateRoom } from "../http/useCreateRoom";
 import { Button } from "./ui/button";
 import {
   Card,
@@ -50,8 +50,7 @@ export function CreateRoomForm() {
       <CardHeader>
         <CardTitle>Criar sala</CardTitle>
         <CardDescription>
-          Crie uam nova sala para começar a fazer perguntas e receber respostas
-          da I.A.
+          Crie uma nova sala para começar a fazer perguntas e receber respostas da I.A.
         </CardDescription>
       </CardHeader>
       <CardContent>
