@@ -18,7 +18,7 @@ import {
   FormMessage,
 } from "../components/ui/form";
 import { Textarea } from "../components/ui/textarea";
-import { useCreateQuestion } from "../http/useCreateRoom";
+import { useCreateQuestion } from "../http/useCreateQuestion";
 
 // Esquema de validação no mesmo arquivo conforme solicitado
 const createQuestionSchema = z.object({
