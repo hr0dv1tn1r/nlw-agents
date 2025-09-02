@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { Button } from "../components/ui/button";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 const isRecordingSupported =
   !!navigator.mediaDevices &&
@@ -16,11 +16,29 @@ export function RecordRoomAudio() {
   const [isRecording, setIsRecording] = useState();
   const recorder = useRef<MediaRecorder | null>(null);
 
-  function stopRecording() {}
+  function stopRecording() {
+    setIsRecording(false);
 
-  // function uploadAudio(audio: Blob) {}
+    if (recorder.current && recorder.current.state !== "inactive") {
+      recorder.current.stop();
+    }
+  }
 
-  function startRecording() {
+  async function uploadAudio(audio: Blob) {
+    const formData = new FormData();
+
+    formData.append("file", audio, "audio.webm");
+
+    const response = await fetch(
+      "http://localhost:3000/rooms/${params.roomId}/audio",
+      {
+        method: "POST",
+        body: formData,
+      },
+    );
+  }
+
+  async function startRecording() {
     if (!isRecordingSupported) {
       alert("O seu navegador não suporta gravação.");
       return;
@@ -35,6 +53,27 @@ export function RecordRoomAudio() {
         sampleRate: 44_100,
       },
     });
+
+    recorder.current = new MediaRecorder(audio, {
+      mimeType: "audio/webm",
+      audioBitsPerSecond: 64_000,
+    });
+
+    recorder.current.ondataavailable = (event) => {
+      if (event.data.size > 0) {
+        console.log(event.data);
+      }
+    };
+
+    recorder.current.onstart = () => {
+      console.log("Gravação iniciada");
+    };
+
+    recorder.current.onstop = () => {
+      console.log("Gravação Encerrada/Pausadao");
+    };
+
+    recorder.current.start();
   }
 
   if (!params.roomId) {
