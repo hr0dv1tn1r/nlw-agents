@@ -10,12 +10,15 @@ import { getRoomsRoute } from "./routes/getRooms.ts";
 import { createRoomRoute } from "./routes/createRoom.ts";
 import { getRoomQuestionsRoute } from "./routes/getRoomQuestions.ts";
 import { createQuestionRoute } from "./routes/createQuestion.ts";
+import fastifyMultipart from "@fastify/multipart";
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
 
 app.register(fastifyCors, {
   origin: "http://localhost:5173",
 });
+
+app.register(fastifyMultipart);
 
 app.setSerializerCompiler(serializerCompiler);
 app.setValidatorCompiler(validatorCompiler);

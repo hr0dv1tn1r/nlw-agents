@@ -13,8 +13,21 @@ export const createQuestionRoute: FastifyPluginCallbackZod = (app) => {
       },
     },
 
-    async (request) => {
+    async (request, reply) => {
       const { roomId } = request.params;
+      const { question } = request.body;
+
+      const embeddings = generateEmbeddings(question);
+      const chuncks = await db
+        .select()
+        .from(schema.audioChunks)
+        .where(and
+          (
+            eq(schema.audioChunks.roomId, roomId),
+            sql`1 - (${schema.audioChunks.embeddings} <=> ${embeddings}) > 0.7`
+          )
+          .orderBy(sql`${schema.audioChunks.embeddings} <=> ${embeddings}`)
+          .limit(3)
 
       const result = await db
         .select({
@@ -27,7 +40,11 @@ export const createQuestionRoute: FastifyPluginCallbackZod = (app) => {
         .where(eq(schema.questions.roomId, roomId))
         .orderBy(desc(schema.questions.createdAt));
 
-      return result;
+      if (!(insertedQuestion) {
+        throw new Error('Failed to insert question');
+      }
+
+      return reply.status(201).send({ questionId: insertedQuestion.id });
     },
   );
 };
