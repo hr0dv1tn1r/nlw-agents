@@ -1,7 +1,8 @@
 import type { FastifyPluginCallbackZod } from "fastify-type-provider-zod";
-import { z } from "zod";
+import { z } from "zod/v4";
 import { generateEmbeddings, transcribeAudio } from "../services/gemini.ts";
 import { schema } from "../db/schema/index.ts";
+import { db } from "../db/connection.ts";
 
 export const uploadAudioRoute: FastifyPluginCallbackZod = (app) => {
   app.post(
@@ -45,11 +46,7 @@ export const uploadAudioRoute: FastifyPluginCallbackZod = (app) => {
         throw new Error("Failed to save audio chunk.");
       }
 
-      return reply.status(201).send({ transcription, embeddings });
-
-      // Transcrever o aúdio
-      // Gerar o verto semântico / embeddings
-      // Salvar no banco de dados
+      return reply.status(201).send({ chunckId: chunck.id });
     },
   );
 };

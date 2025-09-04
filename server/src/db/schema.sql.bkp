@@ -1,0 +1,22 @@
+-- Garante que a extensão pgvector esteja habilitada
+CREATE EXTENSION IF NOT EXISTS vector;
+
+-- Cria a tabela "rooms"
+CREATE TABLE "rooms" (
+  "id" uuid PRIMARY KEY NOT NULL DEFAULT gen_random_uuid(),
+  "name" text NOT NULL,
+  "description" text,
+  "created_at" timestamp with time zone NOT NULL DEFAULT now()
+);
+
+-- Cria a tabela "audio_chunks"
+CREATE TABLE "audio_chunks" (
+  "id" uuid PRIMARY KEY NOT NULL DEFAULT gen_random_uuid(),
+  "room_id" uuid NOT NULL REFERENCES "rooms"("id"),
+  "transcription" text NOT NULL,
+  "embeddings" vector(768) NOT NULL,
+  "created_at" timestamp with time zone NOT NULL DEFAULT now()
+);
+
+-- Adiciona a restrição de chave estrangeira
+ALTER TABLE "audio_chunks" ADD CONSTRAINT "audio_chunks_room_id_fkey" FOREIGN KEY ("room_id") REFERENCES "rooms"("id") ON DELETE CASCADE;

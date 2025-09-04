@@ -30,10 +30,11 @@
   "dependencies": {
     "@fastify/cors": "^11.1.0",
     "@fastify/multipart": "^9.0.3",
-    "@google/genai": "^1.16.0",
+    "@google/genai": "^1.17.0",
     "drizzle-kit": "^0.31.4",
-    "drizzle-orm": "^0.44.4",
+    "drizzle-orm": "^0.44.5",
     "drizzle-seed": "^0.3.1",
+    "drizzle-zod": "^0.8.3",
     "fastify": "^5.5.0",
     "fastify-type-provider-zod": "^5.0.3",
     "pg": "^8.16.3",
