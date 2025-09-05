@@ -11,6 +11,7 @@ import { createRoomRoute } from "./routes/createRoom.ts";
 import { getRoomQuestionsRoute } from "./routes/getRoomQuestions.ts";
 import { createQuestionRoute } from "./routes/createQuestion.ts";
 import fastifyMultipart from "@fastify/multipart";
+import { uploadAudioRoute } from "./routes/uploadAudio.ts";
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
 
@@ -31,5 +32,6 @@ app.register(getRoomsRoute);
 app.register(createRoomRoute);
 app.register(getRoomQuestionsRoute);
 app.register(createQuestionRoute);
+app.register(uploadAudioRoute);
 
 app.listen({ port: env.PORT });

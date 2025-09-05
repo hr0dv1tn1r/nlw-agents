@@ -10,7 +10,7 @@ export const uploadAudioRoute: FastifyPluginCallbackZod = (app) => {
     {
       schema: {
         params: z.object({
-          roomId: z.string().uuid(),
+          roomId: z.string(),
         }),
       },
     },
