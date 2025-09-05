@@ -88,7 +88,6 @@ export function RecordRoomAudio() {
 
     intervalRef.current = setInterval(() => {
       recorder.current?.stop();
-
       createRecorder(audio);
     }, 5000);
   }
