@@ -8,6 +8,13 @@
       "when": 1756953949866,
       "tag": "0000_futuristic_rictor",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1757071119597,
+      "tag": "0001_grey_rockslide",
+      "breakpoints": true
     }
   ]
 }

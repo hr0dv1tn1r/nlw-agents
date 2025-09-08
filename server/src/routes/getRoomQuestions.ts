@@ -12,6 +12,7 @@ export const getRoomQuestionsRoute: FastifyPluginCallbackZod = (app) => {
         params: z.object({
           roomId: z.string(),
         }),
+        // Valida o parâmetro de rota `roomId`.
       },
     },
     async (request) => {
@@ -26,6 +27,7 @@ export const getRoomQuestionsRoute: FastifyPluginCallbackZod = (app) => {
         .from(schema.questions)
         .where(eq(schema.questions.roomId, roomId))
         .orderBy(desc(schema.questions.createdAt));
+      // Retorna as perguntas da sala ordenadas por mais recentes.
 
       return result;
     },

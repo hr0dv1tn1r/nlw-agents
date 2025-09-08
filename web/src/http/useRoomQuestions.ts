@@ -4,6 +4,7 @@ import type { GetRoomQuestionsResponse } from "./types/getRoomQuestionsResponse"
 export function useRoomQuestions(roomId: string) {
   return useQuery({
     queryKey: ["get-questions", roomId],
+    // Chave inclui o `roomId` para cache separado por sala.
     queryFn: async () => {
       const response = await fetch(
         `http://localhost:3333/rooms/${roomId}/questions`,

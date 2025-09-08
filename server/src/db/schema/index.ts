@@ -7,3 +7,4 @@ export const schema = {
   questions,
   audioChunks,
 };
+// Export central utilizado pelo Drizzle para inferir tipos e mapear modelos.

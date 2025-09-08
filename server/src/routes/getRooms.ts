@@ -16,6 +16,7 @@ export const getRoomsRoute: FastifyPluginCallbackZod = (app) => {
       .leftJoin(schema.questions, eq(schema.questions.roomId, schema.rooms.id))
       .groupBy(schema.rooms.id)
       .orderBy(schema.rooms.createdAt);
+    // Lista as salas com contagem de perguntas via LEFT JOIN, agrupando por sala.
 
     return results;
   });

@@ -12,6 +12,7 @@ export const createRoomRoute: FastifyPluginCallbackZod = (app) => {
           name: z.string().min(1),
           description: z.string().optional(),
         }),
+        // Valida o corpo exigindo `name` e `description` opcional.
       },
     },
     async (request, reply) => {
@@ -24,6 +25,7 @@ export const createRoomRoute: FastifyPluginCallbackZod = (app) => {
           description,
         })
         .returning();
+      // Insere uma nova sala no banco.
 
       const insertedRoom = result[0];
 

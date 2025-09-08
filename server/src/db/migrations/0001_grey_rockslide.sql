@@ -1,0 +1,1 @@
+ALTER TABLE "audio_chunks" ALTER COLUMN "roomId" SET NOT NULL;

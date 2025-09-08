@@ -19,7 +19,7 @@ export function QuestionItem({ question }: QuestionItemProps) {
     <Card>
       <CardContent>
         <div className="space-y-4">
-          {/* Question */}
+          {/* Bloco da pergunta */}
           <div className="flex items-start space-x-3">
             <div className="flex-shrink-0">
               <div className="flex size-8 items-center justify-center rounded-full bg-primary/10">
@@ -63,6 +63,7 @@ export function QuestionItem({ question }: QuestionItemProps) {
             </div>
           )}
 
+          {/* Timestamp relativo da criação da pergunta */}
           <div className="flex justify-end">
             <span className="text-muted-foreground text-xs">
               {dayjs(question.createdAt).toNow()}

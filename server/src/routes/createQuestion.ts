@@ -11,7 +11,9 @@ export const createQuestionRoute: FastifyPluginCallbackZod = (app) => {
     {
       schema: {
         params: z.object({ roomId: z.string() }),
+        // Valida o parâmetro de rota `roomId` como string.
         body: z.object({ question: z.string().min(1) }),
+        // Valida o corpo da requisição exigindo `question` não vazia.
       },
     },
 
@@ -20,6 +22,7 @@ export const createQuestionRoute: FastifyPluginCallbackZod = (app) => {
       const { question } = request.body;
 
       const embeddings = await generateEmbeddings(question);
+      // Gera o embedding da pergunta para comparar com os trechos de áudio.
 
       const embeddingsAsString = `[${embeddings.join(",")}]`;
       const chunks = await db
@@ -39,17 +42,20 @@ export const createQuestionRoute: FastifyPluginCallbackZod = (app) => {
           sql`${schema.audioChunks.embeddings} <=> ${embeddingsAsString}::vector`,
         )
         .limit(3);
+      // Busca os 3 trechos mais similares (distância vetorial) dentro da sala, com similaridade > 0.7.
 
       let answer: string | null = null;
       if (chunks.length > 0) {
         const transcriptions = chunks.map((chunk) => chunk.transcription);
         answer = await generateAnswer(question, transcriptions);
+        // Se houver contexto relevante, gera a resposta usando as transcrições como contexto.
       }
 
       const result = await db
         .insert(schema.questions)
         .values({ roomId, question, answer })
         .returning();
+      // Persiste a pergunta (e resposta se houver) no banco.
 
       const insertedQuestion = result[0];
 

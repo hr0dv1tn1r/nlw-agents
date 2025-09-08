@@ -8,6 +8,7 @@ interface QuestionListProps {
 
 export function QuestionList(props: QuestionListProps) {
   const { data } = useRoomQuestions(props.roomId);
+  // Busca as perguntas da sala informada.
 
   return (
     <div className="space-y-6">

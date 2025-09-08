@@ -3,4 +3,5 @@ import { twMerge } from "tailwind-merge"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
+  // Une classes condicionalmente (clsx) e resolve conflitos do Tailwind (twMerge).
 }

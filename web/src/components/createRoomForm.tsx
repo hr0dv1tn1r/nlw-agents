@@ -25,11 +25,13 @@ const createRoomSchema = z.object({
   name: z.string().min(3, { message: "Inclua no mínimo 3 caracteres" }),
   description: z.string(),
 });
+// Esquema de validação do formulário: `name` obrigatório, `description` livre.
 
 type CreateRoomFormData = z.infer<typeof createRoomSchema>;
 
 export function CreateRoomForm() {
   const { mutateAsync: createRoom } = useCreateRoom();
+  // Hook para criar sala via API.
 
   const createRoomForm = useForm<CreateRoomFormData>({
     resolver: zodResolver(createRoomSchema),
@@ -38,11 +40,13 @@ export function CreateRoomForm() {
       description: "",
     },
   });
+  // Instância do formulário controlado pelo react-hook-form.
 
   async function handleCreateRoom({ name, description }: CreateRoomFormData) {
     await createRoom({ name, description });
 
     createRoomForm.reset();
+    // Limpa o formulário após criar a sala.
   }
 
   return (

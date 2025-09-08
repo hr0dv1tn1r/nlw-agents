@@ -28,6 +28,7 @@ const createQuestionSchema = z.object({
     .min(10, "Pergunta deve ter pelo menos 10 caracteres")
     .max(500, "Pergunta deve ter menos de 500 caracteres"),
 });
+// Validação da pergunta com restrições de tamanho para melhor qualidade.
 
 type CreateQuestionFormData = z.infer<typeof createQuestionSchema>;
 
@@ -37,6 +38,7 @@ interface QuestionFormProps {
 
 export function QuestionForm({ roomId }: QuestionFormProps) {
   const { mutateAsync: createQuestion } = useCreateQuestion(roomId);
+  // Hook para enviar a pergunta à API de uma sala específica.
 
   const form = useForm<CreateQuestionFormData>({
     resolver: zodResolver(createQuestionSchema),
@@ -87,6 +89,7 @@ export function QuestionForm({ roomId }: QuestionFormProps) {
             <Button disabled={isSubmitting} type="submit">
               Enviar pergunta
             </Button>
+            {/* Botão desabilitado enquanto o formulário envia, evitando múltiplos envios. */}
           </form>
         </Form>
       </CardContent>

@@ -40,6 +40,7 @@ export function useCreateQuestion(roomId: string) {
         createdAt: new Date().toISOString(),
         isGeneratingAnswer: true,
       };
+      // Atualização otimista: insere a pergunta localmente enquanto a API processa.
 
       queryClient.setQueryData<GetRoomQuestionsResponse>(
         ["get-questions", roomId],
@@ -75,6 +76,7 @@ export function useCreateQuestion(roomId: string) {
           });
         },
       );
+      // Concilia a atualização: substitui o item otimista pelo retornado pela API.
     },
 
     onError(_error, _variables, context) {
@@ -84,6 +86,7 @@ export function useCreateQuestion(roomId: string) {
           context.questions,
         );
       }
+      // Rollback em caso de erro: restaura cache anterior.
     },
 
     // onSuccess: () => {

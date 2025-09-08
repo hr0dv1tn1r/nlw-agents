@@ -14,6 +14,7 @@ export function Room() {
   if (!params.roomId) {
     return <Navigate replace to="/" />;
   }
+  // Se não houver roomId na URL, redireciona para a página inicial.
 
   return (
     <div className="min-h-screen bg-zinc-950">

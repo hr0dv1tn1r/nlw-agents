@@ -6,6 +6,7 @@ const isRecordingSupported =
   !!navigator.mediaDevices &&
   typeof navigator.mediaDevices.getUserMedia === "function" &&
   typeof window.MediaRecorder === "function";
+// Verifica suporte do navegador para gravação de áudio.
 
 type RoomParams = {
   roomId: string;
@@ -43,6 +44,7 @@ export function RecordRoomAudio() {
     );
     const result = await response.json();
     console.log(result);
+    // Envia o trecho gravado para a API e loga a resposta.
   }
 
   async function createRecorder(audio: MediaStream) {
@@ -90,6 +92,7 @@ export function RecordRoomAudio() {
       recorder.current?.stop();
       createRecorder(audio);
     }, 5000);
+    // A cada 5s, finaliza o trecho atual e inicia um novo, enviando por partes.
   }
 
   if (!params.roomId) {

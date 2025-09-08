@@ -22,6 +22,7 @@ export function useCreateRoom() {
 
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["get-rooms"] });
+      // Revalida a lista de salas após criar uma nova.
     },
   });
 }

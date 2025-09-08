@@ -1,11 +1,13 @@
 import { GoogleGenAI } from "@google/genai";
-import { env } from "../env.ts ";
+import { env } from "../env.ts";
 
 const gemini = new GoogleGenAI({
-  apiKey: env.GOOGLE_API_KEY,
+  apiKey: env.GEMINI_API_KEY,
 });
+// Cliente do Gemini com a chave de API proveniente do .env.
 
 const model = "gemini-2.5-flash";
+// Modelo padrão usado para geração de conteúdo e respostas rápidas.
 
 export async function transcribeAudio(audioAsBase64: string, mimeType: string) {
   const response = await gemini.models.generateContent({

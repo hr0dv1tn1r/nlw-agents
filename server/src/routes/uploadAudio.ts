@@ -12,11 +12,13 @@ export const uploadAudioRoute: FastifyPluginCallbackZod = (app) => {
         params: z.object({
           roomId: z.string(),
         }),
+        // Valida o parâmetro de rota `roomId`.
       },
     },
     async (request, reply) => {
       const { roomId } = request.params;
       const audio = await request.file();
+      // Obtém o arquivo de áudio enviado via multipart/form-data.
 
       if (!audio) {
         throw new Error("Audio is required.");
@@ -29,7 +31,10 @@ export const uploadAudioRoute: FastifyPluginCallbackZod = (app) => {
         audioAsBase64,
         audio.mimetype,
       );
+      // Transcreve o áudio em PT-BR usando o serviço Gemini.
+
       const embeddings = await generateEmbeddings(transcription);
+      // Gera embeddings a partir da transcrição para buscas semânticas.
 
       const result = await db
         .insert(schema.audioChunks)
@@ -39,6 +44,7 @@ export const uploadAudioRoute: FastifyPluginCallbackZod = (app) => {
           embeddings,
         })
         .returning();
+      // Persiste o trecho de áudio transcrito e seus embeddings.
 
       const chunck = result[0];
 
